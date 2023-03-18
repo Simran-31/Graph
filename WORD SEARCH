@@ -1,0 +1,45 @@
+class Solution {
+public:
+vector<vector<int>>directions={{-1,0},{1,0},{0,-1},{0,1}};
+bool solve(vector<vector<char>>&board,string word,int row,int col,int i)
+{
+    if(row<0||row>=board.size()||col<0||col>=board[0].size())
+    {
+        return false;
+    }
+    if(board[row][col]==word.at(i))
+    {
+        char currChar=board[row][col];
+        board[row][col]='$';
+        if(i==word.size()-1) return true;
+        bool flag=false;
+
+    for(auto &direction:directions){
+        int new_row=row+direction[0];
+        int new_col=col+direction[1];
+        flag=flag||solve(board,word,new_row,new_col,i+1);
+        if(flag) return true;
+    
+    
+    }
+    board[row][col]=currChar;
+}
+    return false;
+}
+
+    bool exist(vector<vector<char>>& board, string word) {
+        int rows=board.size();
+        int cols=board[0].size();
+        for(int i=0;i<rows;i++)
+        {
+            for(int j=0;j<cols;j++)
+            {
+                if(solve(board,word,i,j,0)){
+                    return true;
+                }
+
+            }
+        }
+       return false; 
+    }
+};
